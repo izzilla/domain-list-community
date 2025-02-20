@@ -39,7 +39,7 @@ jobs:
       - name: Build dlc.dat file
         run: |
           cd code || exit 1
-          go run ./ --outputdir=../ --exportlists=category-ads-all,tld-ir,ir,tld-\!ir,geolocation-\!ir,apple,icloud,mojazin-ir
+          go run ./ --outputdir=../ --exportlists=category-ads-all,tld-cn,cn,tld-\!cn,geolocation-\!cn,apple,icloud,mojazin-ir
           cd ../ && rm -rf code
 
       - name: Generate dlc.dat sha256 hash
