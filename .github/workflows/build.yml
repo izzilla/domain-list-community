@@ -1,5 +1,6 @@
 name: Build dlc.dat
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -21,6 +22,14 @@ jobs:
         with:
           go-version-file: code/go.mod
 
+      - name: update lists
+        run: |
+          cd code
+          echo "downloading from https://raw.githubusercontent.com/AliKhadivi/sanctioned-domains/main/main.list"
+          curl -L -o data/mojazin-ir https://raw.githubusercontent.com/AliKhadivi/sanctioned-domains/refs/heads/main/main.list
+          cd ..
+          
+
       - name: Set variables
         run: |
           echo "RELEASE_NAME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
@@ -30,7 +39,7 @@ jobs:
       - name: Build dlc.dat file
         run: |
           cd code || exit 1
-          go run ./ --outputdir=../ --exportlists=category-ads-all,tld-cn,cn,tld-\!cn,geolocation-\!cn,apple,icloud
+          go run ./ --outputdir=../ --exportlists=category-ads-all,tld-ir,ir,tld-\!ir,geolocation-\!ir,apple,icloud,mojazin-ir
           cd ../ && rm -rf code
 
       - name: Generate dlc.dat sha256 hash
